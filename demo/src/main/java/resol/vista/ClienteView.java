@@ -14,12 +14,10 @@ public class ClienteView {
     private Scanner sc = new Scanner(System.in);
 
     public int mostrarMenuClientes() {
-        System.out.println("=== GESTION CLIENTES ===");
+        System.out.println("=== GESTIÓN CLIENTES ===");
         System.out.println("1. Listar clientes");
         System.out.println("2. Agregar cliente");
-        System.out.println("3. Buscar cliente por ID");
-        System.out.println("4. Eliminar cliente");
-        System.out.println("5. Volver");
+        System.out.println("3. Volver");
         System.out.print("Opción: ");
         return Integer.parseInt(sc.nextLine());
     }
@@ -31,10 +29,9 @@ public class ClienteView {
                 switch (op) {
                     case 1:
                         List<ClienteDTO> lista = controlador.listarClientes();
-                        for (ClienteDTO c : lista) {
-                            System.out.printf("%d | %s | Empresa: %s | Tipo: %s | Localidad: %s | FechaAlta: %s\n",
-                                    c.getId_cliente(), c.getNombre_completo(), c.getNombre_empresa(), c.getTipo_empresa(), c.getLocalidad(), c.getFecha_alta());
-                        }
+                        lista.forEach(c -> System.out.printf("%d | %s | %s | %s | %s | %s\n",
+                                c.getId_cliente(), c.getNombre_completo(), c.getNombre_empresa(),
+                                c.getTipo_empresa(), c.getLocalidad(), c.getFecha_alta()));
                         break;
                     case 2:
                         ClienteDTO c = new ClienteDTO();
@@ -47,19 +44,6 @@ public class ClienteView {
                         System.out.println("Cliente agregado.");
                         break;
                     case 3:
-                        System.out.print("ID: "); int id = Integer.parseInt(sc.nextLine());
-                        ClienteDTO found = controlador.buscar(id);
-                        if (found != null) {
-                            System.out.println("Nombre: " + found.getNombre_completo());
-                            System.out.println("Empresa: " + found.getNombre_empresa());
-                        } else System.out.println("No encontrado.");
-                        break;
-                    case 4:
-                        System.out.print("ID a eliminar: "); int idDel = Integer.parseInt(sc.nextLine());
-                        controlador.eliminar(idDel);
-                        System.out.println("Eliminado si existía.");
-                        break;
-                    case 5:
                         return;
                     default:
                         System.out.println("Opción inválida.");

@@ -1,37 +1,30 @@
 package resol.controlador;
 
-import resol.dao.PedidoDAO;
 import resol.dto.PedidoDTO;
 import resol.excepciones.ReglaNegocioException;
+import resol.modelo.PedidoModelo;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 
 public class PedidoControlador {
-    private PedidoDAO dao = new PedidoDAO();
+    private PedidoModelo modelo = new PedidoModelo();
 
     public void altaPedido(PedidoDTO p) throws SQLException, ReglaNegocioException {
-        dao.altaPedido(p);
-    }
-
-    public PedidoDTO buscar(int id) throws SQLException {
-        return dao.buscarPorId(id);
+        modelo.altaPedido(p);
     }
 
     public List<PedidoDTO> listarTodos() throws SQLException {
-        return dao.listarTodos();
+        return modelo.listar();
     }
 
     public List<PedidoDTO> listarPedidosPorCliente(int idCliente) throws SQLException {
-        return dao.listarPedidosPorCliente(idCliente);
+        return modelo.listarPorCliente(idCliente);
     }
 
-    public void cambiarEstado(int idPedido, String nuevoEstado, LocalDate fechaEnvio, LocalDate fechaEntrega) throws SQLException, ReglaNegocioException {
-        dao.cambiarEstado(idPedido, nuevoEstado, fechaEnvio, fechaEntrega);
-    }
-
-    public void eliminar(int id) throws SQLException {
-        dao.eliminar(id);
+    public void cambiarEstado(int idPedido, String nuevoEstado, LocalDate fechaEnvio, LocalDate fechaEntrega)
+            throws SQLException, ReglaNegocioException {
+        modelo.cambiarEstado(idPedido, nuevoEstado, fechaEnvio, fechaEntrega);
     }
 }

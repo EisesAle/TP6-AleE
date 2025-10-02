@@ -12,13 +12,11 @@ public class ProductoView {
     private Scanner sc = new Scanner(System.in);
 
     public int mostrarMenuProductos() {
-        System.out.println("=== GESTION PRODUCTOS ===");
-        System.out.println("1. Listar todos");
-        System.out.println("2. Listar disponibles");
-        System.out.println("3. Listar necesitan reposición");
-        System.out.println("4. Agregar producto");
-        System.out.println("5. Eliminar producto");
-        System.out.println("6. Volver");
+        System.out.println("=== GESTIÓN PRODUCTOS ===");
+        System.out.println("1. Listar disponibles");
+        System.out.println("2. Listar que necesitan reposición");
+        System.out.println("3. Agregar producto");
+        System.out.println("4. Volver");
         System.out.print("Opción: ");
         return Integer.parseInt(sc.nextLine());
     }
@@ -29,21 +27,14 @@ public class ProductoView {
             try {
                 switch (op) {
                     case 1:
-                        List<ProductoDTO> all = controlador.listarTodos();
-                        for (ProductoDTO p : all) {
-                            System.out.printf("%d | %s | stock:%d | precio:%.2f | disponible:%b | necesitaRepos:%b\n",
-                                    p.getId_producto(), p.getNombre(), p.getStock(), p.getPrecioUnidad(), p.isDisponible(), p.isNecesitaReposicion());
-                        }
+                        List<ProductoDTO> disp = controlador.listarDisponibles();
+                        disp.forEach(p -> System.out.printf("%d - %s | stock:%d\n", p.getId_producto(), p.getNombre(), p.getStock()));
                         break;
                     case 2:
-                        List<ProductoDTO> disp = controlador.listarDisponibles();
-                        disp.forEach(p -> System.out.println(p.getId_producto() + " - " + p.getNombre()));
+                        List<ProductoDTO> rep = controlador.listarNecesitanReposicion();
+                        rep.forEach(p -> System.out.printf("%d - %s | stock:%d necesita reposición\n", p.getId_producto(), p.getNombre(), p.getStock()));
                         break;
                     case 3:
-                        List<ProductoDTO> rep = controlador.listarNecesitanReposicion();
-                        rep.forEach(p -> System.out.println(p.getId_producto() + " - " + p.getNombre()));
-                        break;
-                    case 4:
                         ProductoDTO p = new ProductoDTO();
                         System.out.print("Nombre: "); p.setNombre(sc.nextLine());
                         System.out.print("Stock: "); p.setStock(Integer.parseInt(sc.nextLine()));
@@ -53,12 +44,7 @@ public class ProductoView {
                         controlador.agregarProducto(p);
                         System.out.println("Producto agregado.");
                         break;
-                    case 5:
-                        System.out.print("ID a eliminar: "); int id = Integer.parseInt(sc.nextLine());
-                        controlador.eliminar(id);
-                        System.out.println("Eliminado si existía.");
-                        break;
-                    case 6:
+                    case 4:
                         return;
                     default:
                         System.out.println("Opción inválida.");
